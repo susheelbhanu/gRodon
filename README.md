@@ -5,4 +5,8 @@ Snakefile and scripts for running gRodon
 - Vignette: https://jlw-ecoevo.github.io/gRodon-vignette
 
 - Note: requires `Snakemake` to run
-- Usage: `snakemake -s snakefile --use-conda --cores 32 -rp`
+- Usage: 
+```
+conda activate snakemake
+snakemake -s snakefile --use-conda --cores 32 -rp
+```
