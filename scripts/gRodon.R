@@ -20,8 +20,18 @@ genes <- genes[gene_IDs %in% CDS_IDs]
 #Search for genes annotated as ribosomal proteins
 highly_expressed <- grepl("ribosomal protein",names(genes),ignore.case = T)
 
+# Since some MAGs are not very complete the Growth Prediction is run using "tryCatch"
+# Example usage: https://statisticsglobe.com/using-trycatch-function-to-handle-errors-and-warnings-in-r
 # Running growth prediction
-pred_growth <- predictGrowth(genes, highly_expressed, mode="partial")
+pred_growth <- tryCatch({
+    print("Running growth prediction")
+    result <- predictGrowth(genes, highly_expressed, mode="partial")
+}, error = function(e) {
+    print("Creating empty file if errors are thrown")
+    result <- NULL
+})
+
+# pred_growth <- predictGrowth(genes, highly_expressed, mode="partial")
 
 # Writing the output to file
-write.table(pred_growth, file = snakemake@output[["PRED"]], sep="\t", row.names=FALSE, quote=FALSE)
+if(!is.null(pred_growth)){ write.table(pred_growth, file = snakemake@output[["PRED"]], sep="\t", row.names=FALSE, quote=FALSE) } else { write.table(pred_growth, file = snakemake@output[["PRED"]], sep="\t", row.names=FALSE, quote=FALSE) }
