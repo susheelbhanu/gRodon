@@ -36,4 +36,4 @@ all_result <- rbindlist(all_lists, fill = T) %>%
 merged_df <- all_result %>% mutate(Sample=gsub("_growth_prediction.txt", "", Sample)) 
 
 # Writing dataframe to file
-write.table(pred_growth, file = snakemake@output[["DF"]], sep="\t", row.names=FALSE, quote=FALSE)
+write.table(merged_df, file = snakemake@output[["DF"]], sep="\t", row.names=FALSE, quote=FALSE)
