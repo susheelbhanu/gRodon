@@ -21,16 +21,17 @@ SAMPLES=[line.strip() for line in open("mag_list", 'r')]    # if using a sample 
 ###########
 rule all:
     input:
-        os.path.join(RESULTS_DIR, "gRodon.installed"),
+        os.path.join(RESULTS_DIR, "gRodon/gRodon.installed"),
         expand(os.path.join(RESULTS_DIR, "prokka/{sample}/{sample}.{type}"), sample=SAMPLES, type=["gff", "ffn"]),
-        expand(os.path.join(RESULTS_DIR, "gRodon/{sample}_growth_prediction.txt"), sample=SAMPLES)
+        expand(os.path.join(RESULTS_DIR, "gRodon/{sample}_growth_prediction.txt"), sample=SAMPLES),
+        os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
 
 #################
 # Initial Setup #
 #################
 rule install_gRodon:
     output:
-        done=os.path.join(RESULTS_DIR, "gRodon.installed")
+        done=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     log:
         out="logs/setup.gRodon.log"
     conda:
@@ -82,7 +83,7 @@ rule gRodon:
     input:
         FFN=os.path.join(RESULTS_DIR, "prokka/{sample}/{sample}.ffn"),
         CDS=rules.preprocess.output,
-        installed=os.path.join(RESULTS_DIR, "gRodon.installed")
+        installed=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
         PRED=os.path.join(RESULTS_DIR, "gRodon/{sample}_growth_prediction.txt")
     log:
@@ -93,3 +94,17 @@ rule gRodon:
         "Growth prediction using gRodon for {wildcards.sample}"
     script:
         os.path.join(SRC_DIR, "gRodon.R")
+
+rule merge_gRodon:
+    input:
+        PRED=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
+    output:
+        DF=os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
+    log:
+        "logs/gRodon.merged.log"
+    conda:
+        os.path.join(ENV_DIR, "r-conda.yaml")
+    message:
+        "Merging gRodon output for all samples"
+    script:
+        os.path.join(SRC_DIR, "merge_gRodon.R") 
