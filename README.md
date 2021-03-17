@@ -7,9 +7,8 @@ Snakefile and scripts for running [gRodon](https://www.pnas.org/content/118/12/e
 - Usage: 
 ```
 conda activate snakemake
-snakemake -s snakefile --use-conda --cores 32 -rp -k
+snakemake -s snakefile --use-conda --cores 32 -rp 
 ```
 
 - Note:
   - Requires `snakemake >=5.32.0` to run
-  - When running with MAGs, some may have fewer genes and jobs may fail requiring the `-k` flag with snakemake
