@@ -1,0 +1,24 @@
+# Working directory path
+work_dir: "/mnt/internal/sbusi/gRodon"
+
+# Directory where some of the main data is locate
+data_dir: "/mnt/internal/sbusi/growth_rates"
+
+# Path to MAGs directory
+prokaryotes_dir: "/mnt/md1200/sbusi/metabolisHMM/data"
+eukaryotes_dir: "/mnt/esb-storage-01/NOMIS/ROCKS/growth_rates/EUK_mags"
+
+# Path to results directory
+results_dir: "/mnt/internal/sbusi/growth_rates/results"
+
+# Path to conda environments' directory
+env_dir: "/mnt/internal/sbusi/gRodon/envs"
+
+# Path to directory with auxilliary scripts
+scripts_dir: "/mnt/internal/sbusi/gRodon/scripts"
+
+################################
+# Prokka
+prokka:
+  threads: 4
+
