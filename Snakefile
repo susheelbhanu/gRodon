@@ -1,3 +1,11 @@
+"""
+Author: Susheel Bhanu BUSI
+Affiliation: ESB group LCSB UniLU
+Date: [2021-03-16]
+Run: snakemake -s Snakefile --configfile config/config.yaml --use-conda --cores 36 -rp
+Latest modification: [2021-10-17]
+"""
+
 # Pipeline for running gRodon (v2) for growth prediction
 
 # Includes both prokaryote and eukaryote modes

@@ -1,0 +1,10 @@
+GL_R21_GL16_DN_2_maxbin_res.044
+GL_R20_GL16_DN_1_L8.contigs
+GL_R21_GL16_DN_2_maxbin_res.010
+GL_R19_GL16_UP_3_maxbin_res.047
+GL_R2_GL5_UP_2_G16.contigs
+GL_R21_GL16_DN_2_L41.contigs
+GL_R2_GL5_UP_2_maxbin_res.090
+GL_R20_GL16_DN_1_C28.1.1.2.contigs
+GL_R80_GL56_UP_1_P63.contigs
+GL_R20_GL16_DN_1_maxbin_res.012

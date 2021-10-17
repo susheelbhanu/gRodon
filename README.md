@@ -14,5 +14,9 @@ conda activate snakemake
 snakemake -s snakefile --configfile config/config.yaml --use-conda --cores 32 -rp 
 ```
 
-- Note:
+- Notes:
   - Requires `snakemake >=5.32.0` to run
+  - Update the following files prior to running
+    - `config/config.yaml`: adjust paths for the individual directories
+    - `data/prokaryotes.txt`: filenames for Prokaryote MAGs without the extension (eg: .fa or .fasta or .fna)
+    - `data/eukaryotes.txt`: filenames for Eukaryote MAGs without the extension (eg: .fa or .fasta or .fna)

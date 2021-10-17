@@ -49,31 +49,8 @@ STEPS = config["steps"]
 
 ##############################
 # Input
-PROKS = [line.strip() for line in open("data/prokaryotes.txt").readlines()]
-EUKS = [line.strip() for line in open("data/eukaryotes.txt").readlines()]
+# PROKS = [line.strip() for line in open("data/prokaryotes.txt").readlines()]
+# EUKS = [line.strip() for line in open("data/eukaryotes.txt").readlines()]
+PROKS = [line.strip() for line in open("data/test_prokaryotes.txt").readlines()]
+EUKS = [line.strip() for line in open("data/test_eukaryotes.txt").readlines()]
 
-# Working directory path
-data_dir: "/mnt/internal/sbusi/growth_rates"
-
-# Path to MAG directory
-mag_dir: "/mnt/md1200/sbusi/metabolisHMM/data"
-
-# Path to results directory
-results_dir: "/mnt/internal/sbusi/growth_rates/results"
-
-# Path to conda environments' directory
-env_dir: "/mnt/internal/sbusi/growth_rates/envs"
-
-# Path to directory with auxilliary scripts
-scripts_dir: "/mnt/internal/sbusi/growth_rates/scripts"
-
-################################
-# Prokka
-prokka:
-    threads: 4
-
-    MAFFT:
-        threads: 24
-
-        IQTREE:
-            threads: 4
