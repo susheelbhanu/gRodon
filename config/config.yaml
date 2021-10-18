@@ -40,3 +40,7 @@ prokka:
 metaeuk:
   threads: 18
   db_path: "/mnt/esb-storage-01/NOMIS/databases/metaeuk/MMETSP_zenodo_3247846_uniclust90_2018_08_seed_valid_taxids"
+
+# gRodon
+gRodon:
+  temperature: 4

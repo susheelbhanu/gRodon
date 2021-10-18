@@ -83,6 +83,7 @@ rule preprocess_euk:
 rule euk_gRodon:
     input:
         FFN=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.codon.fas"),
+        TEMPERATURE=config['gRodon']['temperature'],
         CDS=rules.preprocess_euk.output,
         installed=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
