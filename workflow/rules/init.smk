@@ -12,8 +12,8 @@ import pandas as pd
 
 ##############################
 # Paths
-SRC_DIR = srcdir("../scripts")
-ENV_DIR = srcdir("../envs")
+SRC_DIR = srcdir("../../scripts")
+ENV_DIR = srcdir("../../envs")
 
 
 ##############################
@@ -39,6 +39,7 @@ workdir:
 # Relevant directories
 DATA_DIR = config["data_dir"]
 PROK_DIR = config["prokaryotes_dir"]
+EUK_DIR = config["eukaryotes_dir"]
 RESULTS_DIR = config["results_dir"]
 
 
@@ -51,6 +52,6 @@ STEPS = config["steps"]
 # Input
 # PROKS = [line.strip() for line in open("data/prokaryotes.txt").readlines()]
 # EUKS = [line.strip() for line in open("data/eukaryotes.txt").readlines()]
-PROKS = [line.strip() for line in open("data/test_prokaryotes.txt").readlines()]
-EUKS = [line.strip() for line in open("data/test_eukaryotes.txt").readlines()]
+PROKS = [line.strip() for line in open("../data/test_prokaryotes.txt").readlines()]
+EUKS = [line.strip() for line in open("../data/test_eukaryotes.txt").readlines()]
 

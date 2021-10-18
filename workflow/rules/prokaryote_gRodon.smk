@@ -39,7 +39,7 @@ rule install_gRodon:
 ##########
 rule prokka:
     input:
-        os.path.join(MAG_DIR, "{prokaryote}.fna")
+        os.path.join(PROK_DIR, "{prokaryote}.fna")
     output:
         GFF=os.path.join(RESULTS_DIR, "prokka/{prokaryote}/{prokaryote}.gff"),
         FFN=os.path.join(RESULTS_DIR, "prokka/{prokaryote}/{prokaryote}.ffn")

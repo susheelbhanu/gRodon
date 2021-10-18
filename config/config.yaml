@@ -5,13 +5,13 @@
 
 # The steps to be run within the pipeline
 # steps: ["prokaryotes", "eukaryotes"]
-steps: ["eukaryotes"]
+steps: ["prokaryotes"]
 
 
 ############################################################
 # INPUT
 # Working directory path
-work_dir: "/mnt/internal/sbusi/gRodon"
+work_dir: "/mnt/internal/sbusi/gRodon/data"
 
 # Directory where some of the main data is locate
 data_dir: "/mnt/internal/sbusi/growth_rates"
@@ -21,7 +21,7 @@ prokaryotes_dir: "/mnt/md1200/sbusi/metabolisHMM/data"
 eukaryotes_dir: "/mnt/esb-storage-01/NOMIS/ROCKS/growth_rates/EUK_mags"
 
 # Path to results directory
-results_dir: "/mnt/internal/sbusi/growth_rates/results"
+results_dir: "/mnt/esb-storage-01/NOMIS/ROCKS/growth_rates/results"
 
 # Path to conda environments' directory
 env_dir: "/mnt/internal/sbusi/gRodon/envs"

@@ -25,7 +25,7 @@ import pandas as pd
 # configfile: "config/config.yaml"
 
 include:
-    "rules/init.smk"
+    "workflow/rules/init.smk"
 
 
 ##############################
@@ -36,7 +36,7 @@ TARGETS = []
 # Prokaryotes
 if "prokaryotes" in STEPS:
     include:
-        "rules/prokaryote_gRodon.smk"
+        "workflow/rules/prokaryote_gRodon.smk"
     TARGETS += [
         "status/prokaryotes.done"
     ]
@@ -44,7 +44,7 @@ if "prokaryotes" in STEPS:
 # Eukaryotes
 if "eukaryotes" in STEPS:
     include:
-        "rules/eukaryote_gRodon.smk"
+        "workflow/rules/eukaryote_gRodon.smk"
     TARGETS += [
         "status/eukaryotes.done"
     ]
