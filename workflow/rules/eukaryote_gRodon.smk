@@ -12,8 +12,8 @@ import pandas as pd
 rule eukaryotes:
     input:
         os.path.join(RESULTS_DIR, "gRodon/gRodon2.installed"),
-        expand(os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.{type}"), eukaryote=PROKS, type=["gff", ".codon.fas", "fas"]),
-        expand(os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt"), eukaryote=PROKS),
+        expand(os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.{type}"), eukaryote=EUKS, type=["gff", "codon.fas", "fas"]),
+        expand(os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt"), eukaryote=EUKS),
         os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
     output:
         touch("status/eukaryotes.done")
@@ -39,7 +39,7 @@ rule install_gRodon_euk:
 ###########
 rule metaeuk:
     input:
-        os.path.join(EUK_DIR, "{eukaryote}.fna")
+        os.path.join(EUK_DIR, "{eukaryote}.fa")
     output:
         GFF=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.gff"),
         FNA=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.codon.fas"),
@@ -58,7 +58,7 @@ rule metaeuk:
     message:
         "Running MetaEUK on {wildcards.eukaryote}"
     shell:
-        "(date && metaeuk easy-predict {params.flags} {input} {params.DB} $(dirname {output.GFF})/{wildcards.eukaryotes} tmp && date) &> {log}"
+        "(date && metaeuk easy-predict {params.flags} {input} {params.DB} $(dirname {output.GFF})/{wildcards.eukaryote} tmp && date) &> {log}"
 
 #################
 # Preprocessing #
@@ -82,8 +82,8 @@ rule preprocess_euk:
 ##################
 rule euk_gRodon:
     input:
-        FFN=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.ffn"),
-        CDS=rules.preprocess.output,
+        FFN=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.codon.fas"),
+        CDS=rules.preprocess_euk.output,
         installed=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
         PRED=os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt")

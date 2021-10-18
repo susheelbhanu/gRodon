@@ -5,7 +5,7 @@
 
 # The steps to be run within the pipeline
 # steps: ["prokaryotes", "eukaryotes"]
-steps: ["prokaryotes"]
+steps: ["eukaryotes"]
 
 
 ############################################################
