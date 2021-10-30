@@ -43,7 +43,7 @@ metaeuk:
 # BLAST
 blast:
   threads: 18
-  db_path: "/mnt/internal/sbusi/gRodon/dbs/riboblastdb"
+  db_path: "/mnt/internal/sbusi/gRodon/dbs/riboblastdb/riboprot"
   outfmt: 6
 
 # gRodon
