@@ -27,3 +27,5 @@ tmp*
 *tmp*
 ._DS*
 *tmp*
+*.snakemake
+.snakemake*
