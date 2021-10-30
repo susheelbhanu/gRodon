@@ -45,7 +45,7 @@ if "prokaryotes" in STEPS:
 ## Eukaryotes
 if "eukaryotes" in STEPS:
     include:
-        "workflow/rules/test_eukaryotes.smk"
+        "workflow/rules/eukaryote_gRodon.smk"
     TARGETS += [
         "status/eukaryotes.done"
     ]
