@@ -1,0 +1,7 @@
+name: metaeuk
+channels:
+  - bioconda
+  - conda-forge
+  - biocore
+dependencies:
+  - metaeuk=5.34c21f2

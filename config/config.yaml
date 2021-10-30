@@ -1,0 +1,51 @@
+############################################################
+# STEPS 
+# Steps to be done
+# The below assumes that Metagenome-Assembled Genomes, i.e. MAGs, have been generated
+
+# The steps to be run within the pipeline
+steps: ["prokaryotes", "eukaryotes"]
+
+
+############################################################
+# INPUT
+# Working directory path
+work_dir: "/mnt/internal/sbusi/gRodon/data"
+
+# Directory where some of the main data is locate
+data_dir: "/mnt/internal/sbusi/growth_rates"
+
+# Path to MAGs directory
+prokaryotes_dir: "/mnt/md1200/sbusi/metabolisHMM/data"
+eukaryotes_dir: "/mnt/esb-storage-01/NOMIS/ROCKS/growth_rates/EUK_mags"
+
+# Path to results directory
+results_dir: "/mnt/esb-storage-01/NOMIS/ROCKS/growth_rates/results"
+
+# Path to conda environments' directory
+env_dir: "/mnt/internal/sbusi/gRodon/envs"
+
+# Path to directory with auxilliary scripts
+scripts_dir: "/mnt/internal/sbusi/gRodon/scripts"
+
+
+#############################################################
+# PARAMS
+# Prokka
+prokka:
+  threads: 4
+
+# MetaEUK
+metaeuk:
+  threads: 18
+  db_path: "/mnt/esb-storage-01/NOMIS/databases/metaeuk/MMETSP_zenodo_3247846_uniclust90_2018_08_seed_valid_taxids"
+
+# BLAST
+blast:
+  threads: 18
+  db_path: "/mnt/internal/sbusi/gRodon/dbs/riboblastdb/riboprot"
+  outfmt: 6
+
+# gRodon
+gRodon:
+  temperature: 4

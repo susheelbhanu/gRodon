@@ -7,8 +7,13 @@ sink(file=file(snakemake@log[[1]], open="wt"), type="message")
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
 
+# all_paths <-
+#   list.files(path = dirname(snakemake@input[["PRED"]]),
+#              pattern = "*.txt",
+#              full.names = TRUE)
+
 all_paths <-
-  list.files(path = dirname(snakemake@input[["PRED"]]),
+  list.files(path = dirname(snakemake@output[["DF"]]),
              pattern = "*.txt",
              full.names = TRUE)
 
