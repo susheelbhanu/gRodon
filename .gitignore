@@ -18,3 +18,10 @@ results*
 *results
 ../results/*
 *concoct*
+*._*
+._*
+*.Rhistory
+.Rhistory*
+tmp/*
+tmp*
+*tmp*

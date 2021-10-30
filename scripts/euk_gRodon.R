@@ -11,7 +11,7 @@ library(gRodon)
 
 # Load your *.ffn file and temperature values into R
 genes <- readDNAStringSet(snakemake@input[["FFN"]])
-temperature <- snakemake@input[["TEMPERATURE"]]
+temp <- snakemake@params[["TEMPERATURE"]]
 
 # Subset your sequences to those that code for proteins
 CDS_IDs <- readLines(snakemake@input[["CDS"]])
@@ -26,7 +26,7 @@ highly_expressed <- grepl("ribosomal protein",names(genes),ignore.case = T)
 # Running growth prediction
 pred_growth <- tryCatch({
     print("Running growth prediction")
-    result <- predictGrowth(genes, highly_expressed, mode="eukaryote", temperature="temperature")
+    result <- predictGrowth(genes, highly_expressed, mode="eukaryote", temperature=temp)
 }, error = function(e) {
     print("Creating empty file if errors are thrown")
     result <- NULL

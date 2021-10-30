@@ -33,6 +33,7 @@ include:
 # List of (main) targets to be created
 TARGETS = []
 
+
 # Prokaryotes
 if "prokaryotes" in STEPS:
     include:
@@ -41,10 +42,10 @@ if "prokaryotes" in STEPS:
         "status/prokaryotes.done"
     ]
 
-# Eukaryotes
+## Eukaryotes
 if "eukaryotes" in STEPS:
     include:
-        "workflow/rules/eukaryote_gRodon.smk"
+        "workflow/rules/test_eukaryotes.smk"
     TARGETS += [
         "status/eukaryotes.done"
     ]
@@ -52,7 +53,7 @@ if "eukaryotes" in STEPS:
 
 # No targets
 if len(TARGETS) == 0:
-    raise Exception('You are not serious. Nothing to be done? Really?')
+    raise Exception("You are not serious. Nothing to be done? Really?")
 
 rule all:
     input:

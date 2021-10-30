@@ -7,24 +7,23 @@ import os, fnmatch
 import glob
 import pandas as pd
 
-
 ###########
 rule eukaryotes:
     input:
-        os.path.join(RESULTS_DIR, "gRodon/gRodon2.installed"),
+        os.path.join(RESULTS_DIR, "gRodon/gRodon2_euk.installed"),
         expand(os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.{type}"), eukaryote=EUKS, type=["gff", "codon.fas", "fas"]),
+        expand(os.path.join(RESULTS_DIR, "blast/{eukaryote}/{eukaryote}.riboprot"), eukaryote=EUKS),
         expand(os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt"), eukaryote=EUKS),
-        os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
+        os.path.join(RESULTS_DIR, "gRodon/merged_EUK_growth_prediction.txt")
     output:
         touch("status/eukaryotes.done")
-
 
 #################
 # Initial Setup #
 #################
 rule install_gRodon_euk:
     output:
-        done=os.path.join(RESULTS_DIR, "gRodon/gRodon2.installed")
+        done=os.path.join(RESULTS_DIR, "gRodon/gRodon2_euk.installed")
     log:
         out=os.path.join(RESULTS_DIR, "logs/setup.gRodon.log")
     conda:
@@ -60,31 +59,40 @@ rule metaeuk:
     shell:
         "(date && metaeuk easy-predict {params.flags} {input} {params.DB} $(dirname {output.GFF})/{wildcards.eukaryote} tmp && date) &> {log}"
 
+
 #################
 # Preprocessing #
 #################
-rule preprocess_euk:
+rule blast:
     input:
-        os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.gff")
+        os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.fas")
     output:
-        os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}_CDS_names.txt")
+        blast=os.path.join(RESULTS_DIR, "blast/{eukaryote}/{eukaryote}.riboblast"),
+        prot=os.path.join(RESULTS_DIR, "blast/{eukaryote}/{eukaryote}.riboprot")
     log:
-        os.path.join(RESULTS_DIR, "logs/preprocess.{eukaryote}.log")
+        os.path.join(RESULTS_DIR, "logs/blast.{eukaryote}.log") 
     wildcard_constraints:
         eukaryote="|".join(EUKS)
+    conda:
+        os.path.join(ENV_DIR, "blast.yaml")
+    threads:
+        config['blast']['threads']
+    params:
+        DB=config['blast']['db_path'],
+        FMT=config['blast']['outfmt']
     message:
-        "Preprocessing GFFs from {wildcards.eukaryote}"
+        "Running BLAST using the ribosomal database on {wildcards.eukaryote}"
     shell:
-        """(date && sed -n '/##FASTA/q;p' {input} | awk '$3=="CDS"' | awk '{{print $9}}' | awk 'gsub(";.*","")' | awk 'gsub("ID=","")' > {output} && date) &> {log}"""
+        "(date && blastp -db {params.DB} -query {input} -num_threads {threads} -outfmt {params.FMT} -out {output.blast} && "
+        "awk '$11<1e-10' {output.blast} | awk '{{print $1}}' | sort | uniq > {output.prot} && date) &> {log}"
 
-##################
+##############
 # Running gRodon #
 ##################
 rule euk_gRodon:
     input:
         FFN=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.codon.fas"),
-        TEMPERATURE=config['gRodon']['temperature'],
-        CDS=rules.preprocess_euk.output,
+        CDS=rules.blast.output.prot,
         installed=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
         PRED=os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt")
@@ -94,16 +102,18 @@ rule euk_gRodon:
         os.path.join(ENV_DIR, "gRodon.yaml")
     wildcard_constraints:
         eukaryote="|".join(EUKS)
+    params:
+        TEMPERATURE=config['gRodon']['temperature']
     message:
         "Growth prediction using gRodon for {wildcards.eukaryote}"
     script:
         os.path.join(SRC_DIR, "euk_gRodon.R")
 
-rule merge_gRodon_euk:
+rule euk_merge_gRodon:
     input:
         PRED=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
-        DF=os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
+        DF=os.path.join(RESULTS_DIR, "gRodon/merged_EUK_growth_prediction.txt")
     log:
         os.path.join(RESULTS_DIR, "logs/gRodon.merged.log")
     conda:

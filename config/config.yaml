@@ -4,8 +4,7 @@
 # The below assumes that Metagenome-Assembled Genomes, i.e. MAGs, have been generated
 
 # The steps to be run within the pipeline
-# steps: ["prokaryotes", "eukaryotes"]
-steps: ["eukaryotes"]
+steps: ["prokaryotes", "eukaryotes"]
 
 
 ############################################################
@@ -40,6 +39,12 @@ prokka:
 metaeuk:
   threads: 18
   db_path: "/mnt/esb-storage-01/NOMIS/databases/metaeuk/MMETSP_zenodo_3247846_uniclust90_2018_08_seed_valid_taxids"
+
+# BLAST
+blast:
+  threads: 18
+  db_path: "/mnt/internal/sbusi/gRodon/dbs/riboblastdb"
+  outfmt: 6
 
 # gRodon
 gRodon:

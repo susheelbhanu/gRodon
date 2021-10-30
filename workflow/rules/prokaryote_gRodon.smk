@@ -14,7 +14,7 @@ rule prokaryotes:
         os.path.join(RESULTS_DIR, "gRodon/gRodon2.installed"),
         expand(os.path.join(RESULTS_DIR, "prokka/{prokaryote}/{prokaryote}.{type}"), prokaryote=PROKS, type=["gff", "ffn"]),
         expand(os.path.join(RESULTS_DIR, "gRodon/{prokaryote}_growth_prediction.txt"), prokaryote=PROKS),
-        os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
+        os.path.join(RESULTS_DIR, "gRodon/merged_PROK_growth_prediction.txt")
     output:
         touch("status/prokaryotes.done")
 
@@ -98,7 +98,7 @@ rule merge_gRodon:
     input:
         PRED=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
-        DF=os.path.join(RESULTS_DIR, "gRodon/merged_all_growth_prediction.txt")
+        DF=os.path.join(RESULTS_DIR, "gRodon/merged_PROK_growth_prediction.txt")
     log:
         os.path.join(RESULTS_DIR, "logs/gRodon.merged.log")
     conda:
