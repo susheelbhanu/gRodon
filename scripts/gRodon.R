@@ -3,6 +3,9 @@
 # logging
 sink(file=file(snakemake@log[[1]], open="wt"), type="message")
 
+# Message about the run
+print("Running gRodon on PROK mags")
+
 # Running gRodon on MAGs
 suppressMessages(library(Biostrings))
 suppressMessages(library(coRdon))

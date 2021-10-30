@@ -10,11 +10,11 @@ import pandas as pd
 ###########
 rule eukaryotes:
     input:
-        os.path.join(RESULTS_DIR, "gRodon/gRodon2_euk.installed"),
+        os.path.join(RESULTS_DIR, "euk_gRodon/gRodon2_euk.installed"),
         expand(os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.{type}"), eukaryote=EUKS, type=["gff", "codon.fas", "fas"]),
         expand(os.path.join(RESULTS_DIR, "blast/{eukaryote}/{eukaryote}.riboprot"), eukaryote=EUKS),
-        expand(os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt"), eukaryote=EUKS),
-        os.path.join(RESULTS_DIR, "gRodon/merged_EUK_growth_prediction.txt")
+        expand(os.path.join(RESULTS_DIR, "euk_gRodon/{eukaryote}_growth_prediction.txt"), eukaryote=EUKS),
+        os.path.join(RESULTS_DIR, "euk_gRodon/merged_EUK_growth_prediction.txt")
     output:
         touch("status/eukaryotes.done")
 
@@ -23,7 +23,7 @@ rule eukaryotes:
 #################
 rule install_gRodon_euk:
     output:
-        done=os.path.join(RESULTS_DIR, "gRodon/gRodon2_euk.installed")
+        done=os.path.join(RESULTS_DIR, "euk_gRodon/gRodon2_euk.installed")
     log:
         out=os.path.join(RESULTS_DIR, "logs/setup.gRodon.log")
     conda:
@@ -93,9 +93,9 @@ rule euk_gRodon:
     input:
         FFN=os.path.join(RESULTS_DIR, "metaeuk/{eukaryote}/{eukaryote}.codon.fas"),
         CDS=rules.blast.output.prot,
-        installed=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
+        installed=os.path.join(RESULTS_DIR, "euk_gRodon/gRodon2_euk.installed")
     output:
-        PRED=os.path.join(RESULTS_DIR, "gRodon/{eukaryote}_growth_prediction.txt")
+        PRED=os.path.join(RESULTS_DIR, "euk_gRodon/{eukaryote}_growth_prediction.txt")
     log:
         os.path.join(RESULTS_DIR, "logs/gRodon.{eukaryote}.log")
     conda:
@@ -110,10 +110,8 @@ rule euk_gRodon:
         os.path.join(SRC_DIR, "euk_gRodon.R")
 
 rule euk_merge_gRodon:
-    input:
-        PRED=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
-        DF=os.path.join(RESULTS_DIR, "gRodon/merged_EUK_growth_prediction.txt")
+        DF=os.path.join(RESULTS_DIR, "euk_gRodon/merged_EUK_growth_prediction.txt")
     log:
         os.path.join(RESULTS_DIR, "logs/gRodon.merged.log")
     conda:

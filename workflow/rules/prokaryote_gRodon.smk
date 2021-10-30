@@ -95,8 +95,6 @@ rule gRodon:
         os.path.join(SRC_DIR, "gRodon.R")
 
 rule merge_gRodon:
-    input:
-        PRED=os.path.join(RESULTS_DIR, "gRodon/gRodon.installed")
     output:
         DF=os.path.join(RESULTS_DIR, "gRodon/merged_PROK_growth_prediction.txt")
     log:

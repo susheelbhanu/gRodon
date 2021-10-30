@@ -3,6 +3,9 @@
 # logging
 sink(file=file(snakemake@log[[1]], open="wt"), type="message")
 
+# Message about the run
+print("Running gRodon on EUK mags")
+
 # Running gRodon on MAGs
 suppressMessages(library(Biostrings))
 suppressMessages(library(coRdon))
@@ -11,15 +14,13 @@ library(gRodon)
 
 # Load your *.ffn file and temperature values into R
 genes <- readDNAStringSet(snakemake@input[["FFN"]])
-temp <- snakemake@params[["TEMPERATURE"]]
+temp <- as.numeric(snakemake@params[["TEMPERATURE"]])
 
 # Subset your sequences to those that code for proteins
-CDS_IDs <- readLines(snakemake@input[["CDS"]])
-gene_IDs <- gsub(" .*","",names(genes)) #Just look at first part of name before the space
-genes <- genes[gene_IDs %in% CDS_IDs]
+ribogenes <- readLines(snakemake@input[["CDS"]])
 
-#Search for genes annotated as ribosomal proteins
-highly_expressed <- grepl("ribosomal protein",names(genes),ignore.case = T)
+# Search for genes annotated as ribosomal proteins based on the BLAST output
+highly_expressed <- names(genes) %in% ribogenes
 
 # Since some MAGs are not very complete the Growth Prediction is run using "tryCatch"
 # Example usage: https://statisticsglobe.com/using-trycatch-function-to-handle-errors-and-warnings-in-r
